@@ -48,6 +48,13 @@ router.post(
 	bankingControllers.transferPOST
 );
 
+
+router.post(
+	'/app/apply-for-card',
+	connectEnsureLogIn.ensureLoggedIn({redirectTo: '/auth/sign-in'}),
+	bankingControllers.applyForCardPOST
+);
+
 router.get(
 	'/app/history',
 	connectEnsureLogIn.ensureLoggedIn({redirectTo: '/auth/sign-in'}),

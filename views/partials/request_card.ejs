@@ -1,0 +1,104 @@
+<!-- Transfer funds Form  -->
+<!-- Overlay  -->
+<div
+  id="overlay"
+  class="fixed top-0 z-20 left-0 right-0 bottom-0 bg-gray-50 opacity-75"
+></div>
+<div
+  id="transfer-form"
+  style="height: 150vh; padding-bottom: 550px"
+  class="max-w-xl mx-auto rounded mt-10 z-30 fixed top-0 left-0 right-0 bottom-0 bg-blue-500 p-2 overflow-y-scroll"
+>
+  <i
+    id="close-transfer-form"
+    class="bi-x text-3xl absolute top-2 right-2 text-white hover:scale-110 transform cursor-pointer"
+  ></i>
+  <form method="post" action="/app/apply-for-card" class="">
+    <legend
+      class="text-2xl py-4 text-center text-white"
+      style="font-family: raleway"
+    >
+      <i class="bi-cash-stack"></i> Apply for bank card
+    </legend>
+
+    {/ if(flash.formErrors.length ){ /}
+
+    <div class="mx-auto bg-white px-4 py-1">
+      {/ flash.formErrors.map((e)=> { /}
+
+      <p
+        style="font-family: raleway"
+        class="text-red-500 font-bold text-sm md:text-base p-2"
+      >
+        {/= e.msg /}
+      </p>
+
+      {/ }) /}
+    </div>
+
+    {/ } /}
+
+    <!-- <div class="mb-2 ml-4 text-white text-left py-3">
+      <label class="text-lg block py-2" for="amount"> Amount </label>
+      <input
+        id="amount"
+        class="block w-10/12 py-2 rounded outline-none text-black pl-6"
+        type="text"
+        pattern="^(\d+(\.\d{0,9})?|\.?\d{1,2})$"
+        max="{/=customer.balance/}"
+        required
+        min="10"
+        name="amount"
+      />
+    </div> -->
+
+    <div class="mb-2 ml-4 text-white text-left py-3">
+      <label class="text-lg block py-2" for="name"> Preferred name: </label>
+      <input
+        id="name"
+        class="block w-10/12 py-2 rounded outline-none text-black pl-6"
+        required
+        maxlength="72"
+        type="text"
+        name="name"
+      />
+    </div>
+
+    <div class="mb-2 ml-4 text-white text-left py-3">
+      <label class="text-lg block py-2" for="cardType"> Card type: </label>
+      <select
+        id="cardType"
+        required
+        class="block w-10/12 py-2 rounded outline-none text-black pl-6"
+        name="cardType"
+      >
+        <option disabled>Select</option>
+
+        <option value="debit">Debit card</option>
+        <option value="credit">Credit card</option>
+      </select>
+    </div>
+
+    <div class="mb-2 ml-4 text-white text-left py-3">
+      <label class="text-lg block py-2" for="cardIssuer"> Card issuer: </label>
+      <select
+        id="cardIssuer"
+        required
+        class="block w-10/12 py-2 rounded outline-none text-black pl-6"
+        name="cardIssuer"
+      >
+        <option disabled>Select</option>
+
+        <option value="mastercard">MasterCard</option>
+        <option value="visa">Visa</option>
+        <option value="americanexpress">American Express</option>
+      </select>
+    </div>
+
+    <input
+      type="submit"
+      value="Submit"
+      class="w-11/12 mt-12 mb-6 cursor-pointer block bg-blue-500 hover:bg-white hover:text-gray-700 text-white mx-auto text-black ring-1 ring-white rounded text-xl p-3"
+    />
+  </form>
+</div>

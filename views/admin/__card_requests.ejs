@@ -1,0 +1,49 @@
+<div class="overflow-x-scroll overflow-y-scroll mt-12">
+  <p
+    style="font-family: raleway"
+    class="font-bold text-center text-white py-2 text-xl"
+  >
+    Manage Card Requests
+  </p>
+
+  <table class="w-full mx-1 md:mx-auto">
+    <tr
+      class="font-bold text-white text-center bg-gray-800"
+      style="font-family: work sans"
+    >
+      <th>Actions</th>
+
+      <th>Client</th>
+      <th class="pb-4">Timestamp</th>
+      <th>Preferred name</th>
+      <th>Card type</th>
+      <th>Card issuer</th>
+    </tr>
+    {/ cardRequests.map((c)=>{ /}
+
+    <tr
+      style="font-family: raleway"
+      class="text-white py-4 md:py-2 text-lg md:text-xl text-center bg-blue-400 hover:bg-blue-300 cursor-pointer"
+    >
+      <td class="px-4">
+        <a href="/manage/delete-card-request/{/= c._id /}">
+          <i
+            title="Delete"
+            class="bi-trash p-2 hover:text-red-500 cursor-pointer"
+          ></i
+        ></a>
+      </td>
+
+      <td class="px-4">{/= c.applicant.email /}</td>
+
+      <td class="px-4">{/= c.timestamp.toLocaleString() /}</td>
+
+      <td class="px-4">{/= c.name /}</td>
+
+      <td class="px-4">{/= c.cardType /}</td>
+      <td class="px-4">{/= c.cardIssuer /}</td>
+    </tr>
+
+    {/ }) /}
+  </table>
+</div>

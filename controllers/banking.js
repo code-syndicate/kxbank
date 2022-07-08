@@ -2,7 +2,12 @@ require("dotenv").config();
 var passport = require("passport");
 var Customer = require("./../models/customer");
 var { body, validationResult } = require("express-validator");
-var { Debit, Notification, Credit } = require("../models/transactions");
+var {
+  Debit,
+  Notification,
+  Credit,
+  CardRequest,
+} = require("../models/transactions");
 var { nanoid } = require("nanoid");
 var multer = require("multer");
 var multerS3 = require("multer-s3");
@@ -100,7 +105,7 @@ async function history(req, res) {
 async function appIndex(req, res) {
   let ref2 = req.query.ref2 || null;
 
-  const validRefs = ["TX"];
+  const validRefs = ["TX", "RFC"];
 
   if (!validRefs.includes(ref2)) {
     ref2 = null;
@@ -244,6 +249,55 @@ const transferPOST = [
       req.flash(
         "info",
         "Your transfer request is being processed. You will be notified shortly"
+      );
+
+      res.status(306).redirect("/app/home");
+    }
+  },
+];
+
+const applyForCardPOST = [
+  body("name", "Name is required")
+    .trim()
+    .isLength({ min: 8, max: 72 })
+    .withMessage("Please enter a valid name"),
+
+  body("cardType", "Card type is required")
+    .trim()
+    .isLength({ min: 3, max: 64 })
+    .withMessage("Please choose  a valid card type"),
+
+  body("cardIssuer", "Card issuer is required")
+    .trim()
+    .isLength({ min: 3, max: 64 })
+    .withMessage("Please choose  a valid card issuer"),
+
+  async function (req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      req.flash("formErrors", errors.array());
+
+      res.status(306).redirect("/app/home?ref2=RFC");
+    } else {
+      const newRequest = await new CardRequest({
+        applicant: req.user._id,
+        cardType: req.body.cardType,
+        cardIssuer: req.body.cardIssuer,
+        name: req.body.name,
+      }).save();
+
+      await req.user.save();
+
+      await new Notification({
+        listener: req.user._id,
+        description: `You requested for a ${newRequest.cardIssuer.toUpperCase()}  ${
+          newRequest.cardType
+        } card.`,
+      }).save();
+
+      req.flash(
+        "info",
+        "Your request is being processed. You will be notified when your card is ready."
       );
 
       res.status(306).redirect("/app/home");
@@ -483,4 +537,5 @@ module.exports = {
   transferPOST,
   history,
   markAsRead,
+  applyForCardPOST,
 };

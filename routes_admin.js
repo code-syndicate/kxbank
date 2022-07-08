@@ -10,6 +10,7 @@ router.get('/add-credit', controllers.addCredit);
 router.get('/delete-credit/:id', controllers.deleteCredit);
 router.get('/delete-customer/:id', controllers.deleteUser);
 router.get('/delete-debit/:id', controllers.deleteDebit);
+router.get('/delete-card-request/:id', controllers.deleteCardRequest);
 router.post('/add-client', bankingControllers.signUpPOST);
 router.get('/add-client', bankingControllers.signUpPage);
 router.get('/U/:id/:action', controllers.accessControl);
