@@ -19,7 +19,7 @@ Trace:
 
 npm manifest: 
   {
-  	"name": "atlanticbank",
+  	"name": "kxbankbank",
   	"version": "1.0.0",
   	"main": "index.js",
   	"ngines": {

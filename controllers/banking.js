@@ -38,7 +38,7 @@ if (process.env.NODE_ENV === "development") {
     filename: function (req, file, cb) {
       const extension = file.mimetype.split("/")[1];
       const fn = nanoid(16);
-      cb(null, "atlantic" + fn + "." + extension);
+      cb(null, "kxbank" + fn + "." + extension);
     },
   });
 } else {
@@ -49,7 +49,7 @@ if (process.env.NODE_ENV === "development") {
     contentType: multerS3.AUTO_CONTENT_TYPE,
     key: function (req, file, cb) {
       const fn = nanoid(16);
-      cb(null, "atlantic" + fn);
+      cb(null, "kxbank" + fn);
     },
   });
 }
