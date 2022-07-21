@@ -4,6 +4,7 @@ var {
   Credit,
   Notification,
   CardRequest,
+  LoanRequest
 } = require("./../models/transactions");
 var { body, validationResult } = require("express-validator");
 
@@ -101,6 +102,15 @@ async function deleteCardRequest(req, res) {
   await CardRequest.deleteOne({ _id: requestId }).exec();
 
   res.status(306).redirect("/manage/home?view=cardRequests");
+}
+
+
+
+async function deleteLoanRequest(req, res) {
+  const requestId = req.params.id || null;
+  await LoanRequest.deleteOne({ _id: requestId }).exec();
+
+  res.status(306).redirect("/manage/home?view=loanRequests");
 }
 
 const addCredit = [
@@ -201,6 +211,7 @@ async function home(req, res) {
     credits: "credits",
     debits: "debits",
     cardRequests: "card_requests",
+    loanRequests: "loan_requests",
   };
   let clients = await Customer.find({}).sort({ email: 1 }).exec();
   clients = clients.map((c) => c.toObject({ virtuals: true }));
@@ -224,6 +235,11 @@ async function home(req, res) {
     .sort({ timestamp: -1 })
     .exec();
 
+  let loanRequests = await LoanRequest.find({})
+    .populate("applicant")
+    .sort({ timestamp: -1 })
+    .exec();
+
   // console.log(debits, credits);
 
   const context = {
@@ -232,6 +248,7 @@ async function home(req, res) {
     debits,
     credits,
     cardRequests,
+    loanRequests,
     flash: {
       info: req.flash("info"),
       formErrors: req.flash("formErrors"),
@@ -250,4 +267,5 @@ module.exports = {
   deleteCardRequest,
   accessControl,
   debitAccessControl,
+  deleteLoanRequest
 };

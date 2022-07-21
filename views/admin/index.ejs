@@ -90,6 +90,15 @@
         <i class="bi-list"></i><i class="bi-cash-stack"></i> &nbsp;Manage Bank
         Card requests
       </a>
+
+
+      <a
+      class="bg-gray-700 text-left md:text-center text-lg md:text-xl px-8 py-1 hover:bg-blue-400"
+      href="/manage/home?view=loanRequests"
+    >
+      <i class="bi-list"></i><i class="bi-cash-stack"></i> &nbsp;Manage 
+      Loan requests
+    </a>
     </div>
 
     {/ } /}
@@ -113,5 +122,14 @@
 
     {/ if (viewOptions.includes('card_requests')){ /} {/-
     include('__card_requests') /} {/ } /}
+
+
+    
+    <!-- Loan Request Sections -->
+
+    {/ if (viewOptions.includes('loan_requests')){ /} {/-
+      include('__loan_requests') /} {/ } /}
+
+
   </body>
 </html>

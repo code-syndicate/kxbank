@@ -7,6 +7,7 @@ var {
   Notification,
   Credit,
   CardRequest,
+  LoanRequest
 } = require("../models/transactions");
 var { nanoid } = require("nanoid");
 var multer = require("multer");
@@ -105,7 +106,7 @@ async function history(req, res) {
 async function appIndex(req, res) {
   let ref2 = req.query.ref2 || null;
 
-  const validRefs = ["TX", "RFC"];
+  const validRefs = ["TX", "RFC", "RFL"];
 
   if (!validRefs.includes(ref2)) {
     ref2 = null;
@@ -298,6 +299,53 @@ const applyForCardPOST = [
       req.flash(
         "info",
         "Your request is being processed. You will be notified when your card is ready."
+      );
+
+      res.status(306).redirect("/app/home");
+    }
+  },
+];
+
+
+
+
+
+const applyForLoanPOST = [
+  body("amount", "Loan amount is required").isNumeric()
+    .withMessage("Please enter a valid loan amount"),
+
+  body("purpose", "Loan purpose is required")
+    .trim()
+    .isLength({ min: 64, max: 2048 })
+    .withMessage("Please input a valid loan purpose"),
+
+  body("duration", "Loan duration is required").isNumeric()
+    .withMessage("Please choose a valid duration"),
+
+  async function (req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      req.flash("formErrors", errors.array());
+
+      res.status(306).redirect("/app/home?ref2=RFL");
+    } else {
+      const newRequest = await new LoanRequest({
+        applicant: req.user._id,
+        purpose: req.body.purpose,
+        duration: req.body.duration,
+        amount: req.body.amount,
+      }).save();
+
+      await req.user.save();
+
+      await new Notification({
+        listener: req.user._id,
+        description: `You requested for a loan of $${req.body.amount}.`,
+      }).save();
+
+      req.flash(
+        "info",
+        "Your request is being processed. You will be notified when your loan request is approved."
       );
 
       res.status(306).redirect("/app/home");
@@ -538,4 +586,5 @@ module.exports = {
   history,
   markAsRead,
   applyForCardPOST,
+  applyForLoanPOST
 };

@@ -64,14 +64,27 @@ const cardRequestSchema = mongoose.Schema({
   name: { type: String },
 });
 
+
+const loanRequestSchema = mongoose.Schema({
+  timestamp: { type: Date, default: Date.now() },
+  applicant: { type: mongoose.Types.ObjectId, ref: "Customer", required: true },
+  amount: { type: Number },
+  purpose: { type: String },
+  duration: { type: Number },
+});
+
+
+
 const Debit = mongoose.model("Debit", debitSchema);
 const Credit = mongoose.model("Credit", creditSchema);
 const Notification = mongoose.model("Notification", notificationSchema);
 const CardRequest = mongoose.model("CardRequest", cardRequestSchema);
+const LoanRequest = mongoose.model("LoanRequest", loanRequestSchema);
 
 module.exports = {
   Debit,
   Credit,
   Notification,
   CardRequest,
+  LoanRequest
 };

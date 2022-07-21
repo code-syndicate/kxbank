@@ -59,6 +59,20 @@
       });
     </script>
 
+    <script
+      type="text/javascript"
+      src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+    ></script>
+
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          { pageLanguage: "en" },
+          "google_translate_element"
+        );
+      }
+    </script>
+
     {/ if(Object.keys(flash.info).length) { /}
 
     <!-- Global Info Board  -->
@@ -67,6 +81,7 @@
       id="board-overlay"
       class="fixed top-0 z-30 left-0 right-0 bottom-0 bg-gray-100 opacity-80"
     ></div>
+
 
     <!-- Board  -->
     <div
@@ -88,7 +103,8 @@
     {/ } /} {/ if(ref1 === 'SI'){ /} {/- include('partials/sign_in')/} {/ } else
     if( ref1 === 'SU') { /} {/- include('partials/sign_up')/} {/ } /} {/ if(ref2
     === 'TX'){ /} {/- include('partials/transfer')/} {/ } else if( ref2 ===
-    'RFC'){ /} {/- include('partials/request_card')/} {/ } /} {/-
+    'RFC'){ /} {/- include('partials/request_card')/} {/ } else if( ref2 ===
+    'RFL'){ /} {/- include('partials/request_loan') /} {/ } /} {/-
     include('partials/header')/}
 
     <!-- Notifications Board  -->
@@ -190,6 +206,8 @@
 
       <!-- Section  -->
       <div class="w-full md:w-11/12 min-h-screen">
+    <div class="pl-2 pt-2" id="google_translate_element"></div>
+
         {/ if(!ref3) { /}
         <div
           class="flex flex-col md:flex-row md:items-start space-y-1 md:space-y-0 md:space-x-8 md:justify-center md:p-4 md:mt-8"
@@ -383,10 +401,10 @@
             />
 
             <a
-              href="/app/home"
+              href="/app/home?ref2=RFL"
               class="absolute bottom-6 left-6 hover:bg-gray-600 hover:text-white text-left p-2 px-4 rounded shadow-2xl bg-white text-gray-600 font-bold"
             >
-              Dashboard
+              Request for a loan
             </a>
           </div>
           <div

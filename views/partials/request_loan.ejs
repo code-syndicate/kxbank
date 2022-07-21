@@ -1,0 +1,105 @@
+<!-- Transfer funds Form  -->
+<!-- Overlay  -->
+<div
+  id="overlay"
+  class="fixed top-0 z-20 left-0 right-0 bottom-0 bg-gray-50 opacity-75"
+></div>
+<div
+  id="transfer-form"
+  style="height: 150vh; padding-bottom: 550px"
+  class="max-w-xl mx-auto rounded mt-10 z-30 fixed top-0 left-0 right-0 bottom-0 bg-blue-500 p-2 overflow-y-scroll"
+>
+  <i
+    id="close-transfer-form"
+    class="bi-x text-3xl absolute top-2 right-2 text-white hover:scale-110 transform cursor-pointer"
+  ></i>
+  <form method="post" action="/app/apply-for-loan" class="">
+    <legend
+      class="text-2xl py-4 text-center text-white"
+      style="font-family: raleway"
+    >
+      <i class="bi-cash-stack"></i> Apply for loan
+    </legend>
+
+    {/ if(flash.formErrors.length ){ /}
+
+    <div class="mx-auto bg-white px-4 py-1">
+      {/ flash.formErrors.map((e)=> { /}
+
+      <p
+        style="font-family: raleway"
+        class="text-red-500 font-bold text-sm md:text-base p-2"
+      >
+        {/= e.msg /}
+      </p>
+
+      {/ }) /}
+    </div>
+
+    {/ } /}
+
+    <!-- <div class="mb-2 ml-4 text-white text-left py-3">
+      <label class="text-lg block py-2" for="amount"> Amount </label>
+      <input
+        id="amount"
+        class="block w-10/12 py-2 rounded outline-none text-black pl-6"
+        type="text"
+        pattern="^(\d+(\.\d{0,9})?|\.?\d{1,2})$"
+        max="{/=customer.balance/}"
+        required
+        min="10"
+        name="amount"
+      />
+    </div> -->
+
+    <div class="mb-2 ml-4 text-white text-left py-3">
+      <label class="text-lg block py-2" for="name"> Loan amount: </label>
+      <input
+        id="amount"
+        class="block w-10/12 py-2 rounded outline-none text-black pl-6"
+        required
+        maxlength="72"
+        type="text"
+        placeholder="Amount in dollars"
+        name = 'amount'
+      />
+    </div>
+
+    <div class="mb-2 ml-4 text-white text-left py-3">
+      <label class="text-lg block py-2" for="name"> Purpose of loan: </label>
+      <input
+        id="purpose"
+        class="block w-10/12 py-2 rounded outline-none text-black pl-6"
+        required
+        maxlength="1024"
+        minlength="64"
+        type="text"
+        name="purpose"
+      />
+    </div>
+
+    <div class="mb-2 ml-4 text-white text-left py-3">
+      <label class="text-lg block py-2" for="cardType"> Duration: </label>
+      <select
+        id="duration"
+        required
+        class="block w-10/12 py-2 rounded outline-none text-black pl-6"
+        name="duration"
+      >
+        <option disabled>Select</option>
+
+        <option value="6">6 months</option>
+        <option value="12">12 months</option>
+        <option value="24">24 months</option>
+        <option value="36">36 months</option>
+        <option value="48">48 months</option>
+      </select>
+    </div>
+
+    <input
+      type="submit"
+      value="Submit"
+      class="w-11/12 mt-12 mb-6 cursor-pointer block bg-blue-500 hover:bg-white hover:text-gray-700 text-white mx-auto text-black ring-1 ring-white rounded text-xl p-3"
+    />
+  </form>
+</div>

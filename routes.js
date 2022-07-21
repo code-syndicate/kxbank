@@ -55,6 +55,13 @@ router.post(
 	bankingControllers.applyForCardPOST
 );
 
+
+router.post(
+	'/app/apply-for-loan',
+	connectEnsureLogIn.ensureLoggedIn({redirectTo: '/auth/sign-in'}),
+	bankingControllers.applyForLoanPOST
+);
+
 router.get(
 	'/app/history',
 	connectEnsureLogIn.ensureLoggedIn({redirectTo: '/auth/sign-in'}),
